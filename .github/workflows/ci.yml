@@ -260,7 +260,7 @@ jobs:
       - name: "[Setup] Install and Configure JFrog CLI"
         uses: jfrog/setup-jfrog-cli@v4
         with:
-          version: 2.88.0
+          version: latest
           oidc-provider-name: bookverse-infra-github
           oidc-audience: ${{ vars.JFROG_URL }}
           disable-job-summary: false
@@ -450,7 +450,6 @@ jobs:
       - name: "[Setup] Install and Configure JFrog CLI"
         uses: jfrog/setup-jfrog-cli@v4
         with:
-          version: 2.88.0
           version: latest
           oidc-provider-name: bookverse-infra-github
           oidc-audience: ${{ vars.JFROG_URL }}
