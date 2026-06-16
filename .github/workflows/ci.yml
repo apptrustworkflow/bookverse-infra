@@ -123,7 +123,7 @@ jobs:
       # Fetches infrastructure repository source code with commit history
       # for intelligent analysis of shared library and tooling changes
       - name: "[Setup] Checkout"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 2  # Shallow clone with history for library change comparison
 
@@ -260,19 +260,18 @@ jobs:
       - name: "[Setup] Install and Configure JFrog CLI"
         uses: jfrog/setup-jfrog-cli@v4
         with:
-          version: 2.88.0
+          version: latest
+          oidc-provider-name: bookverse-infra-github
+          oidc-audience: ${{ vars.JFROG_URL }}
+          disable-job-summary: false
+          disable-auto-build-publish: true
+          disable-auto-evidence-collection: false
         env:
           JF_URL: ${{ vars.JFROG_URL }}
           JF_PROJECT: ${{ vars.PROJECT_KEY }}
           JFROG_CLI_BUILD_NAME: ${{ env.BUILD_NAME }}
           JFROG_CLI_BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
           JFROG_CLI_BUILD_PROJECT: ${{ vars.PROJECT_KEY }}
-        with:
-          oidc-provider-name: bookverse-infra-github
-          oidc-audience: ${{ vars.JFROG_URL }}
-          disable-job-summary: false
-          disable-auto-build-publish: true
-          disable-auto-evidence-collection: false
 
       - name: "[Setup] Verify JFrog CLI Configuration"
         run: |
@@ -451,20 +450,18 @@ jobs:
       - name: "[Setup] Install and Configure JFrog CLI"
         uses: jfrog/setup-jfrog-cli@v4
         with:
-          version: 2.88.0
-        env:
-          JF_URL: ${{ vars.JFROG_URL }}
-          JF_PROJECT: ${{ vars.PROJECT_KEY }}
-          JFROG_CLI_BUILD_NAME: ${{ env.BUILD_NAME }}
-          JFROG_CLI_BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
-          JFROG_CLI_BUILD_PROJECT: ${{ vars.PROJECT_KEY }}
-        with:
           version: latest
           oidc-provider-name: bookverse-infra-github
           oidc-audience: ${{ vars.JFROG_URL }}
           disable-job-summary: false
           disable-auto-build-publish: true
           disable-auto-evidence-collection: false
+        env:
+          JF_URL: ${{ vars.JFROG_URL }}
+          JF_PROJECT: ${{ vars.PROJECT_KEY }}
+          JFROG_CLI_BUILD_NAME: ${{ env.BUILD_NAME }}
+          JFROG_CLI_BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
+          JFROG_CLI_BUILD_PROJECT: ${{ vars.PROJECT_KEY }}
 
       - name: "[Setup] Verify JFrog CLI Configuration"
         run: |
@@ -647,18 +644,16 @@ jobs:
       - name: "[Setup] JFrog CLI"
         uses: jfrog/setup-jfrog-cli@v4
         with:
-          version: 2.88.0
-        id: jfrog-cli-auth
-        env:
-          JF_URL: ${{ vars.JFROG_URL }}
-          JF_PROJECT: ${{ vars.PROJECT_KEY }}
-        with:
           version: latest
           oidc-provider-name: bookverse-infra-github
           oidc-audience: ${{ vars.JFROG_URL }}
           disable-job-summary: true
           disable-auto-build-publish: true
           disable-auto-evidence-collection: false
+        id: jfrog-cli-auth
+        env:
+          JF_URL: ${{ vars.JFROG_URL }}
+          JF_PROJECT: ${{ vars.PROJECT_KEY }}
 
       - name: "[Auth] OIDC Token Ready"
         id: auth-ready
